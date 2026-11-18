@@ -1,0 +1,13 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "agent-workflow",
+  "description": "Specialist builders and reviewers for Claude Code, layered on superpowers.",
+  "owner": { "name": "kctiru" },
+  "plugins": [
+    {
+      "name": "agent-workflow",
+      "description": "Specialist builders, evidence-based reviewers, and greenfield/brownfield stages.",
+      "source": "./"
+    }
+  ]
+}
