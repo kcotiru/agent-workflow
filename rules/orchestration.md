@@ -62,7 +62,7 @@ A change that touches one layer, has no new behaviour or a trivially testable on
 
 ## Routing
 
-Every plan task gets `Owner:` and `Reviewers:` lines. Load `agent-workflow:task-routing` when planning or dispatching.
+Every plan task gets `Owner:` and `Reviewers:` lines. Load `agent-workflow:task-routing` when planning or dispatching. Never pass a `model` when dispatching a roster agent; its frontmatter sets model and effort.
 
 ## Change tracking (no commits, ever)
 

@@ -1,12 +1,19 @@
 # agent-workflow
 
-A Claude Code plugin that turns the main session into a router. It plans, then dispatches specialist builders (UI designer, frontend, backend, database, tests) and evidence-based reviewers (UI/UX, security, performance, code, database). It covers greenfield and brownfield work, and never commits.
+A Claude Code plugin that turns the main session into a router. It plans, then dispatches specialist builders and evidence-based reviewers. It covers greenfield and brownfield work, and never commits.
 
 ## Prerequisites
 
 - Claude Code, and Node 22 (hooks and tests run on Node).
-- These plugins installed: `superpowers`, `ponytail`, `ui-ux-pro-max`, `frontend-design`, `chrome-devtools-mcp`, `supabase`.
-- Optional: `graphify`. Note it can send content to external LLM APIs, so skip it for sensitive code.
+- These plugins installed: 
+  - `superpowers` 
+  - `ponytail` 
+  - `ui-ux-pro-max`
+  - `frontend-design`
+  - `chrome-devtools-mcp`
+  - `supabase`.
+- Optional: 
+  - `graphify` - Note: it can send content to external LLM APIs, so skip it for sensitive code.
 
 ## Install
 
@@ -42,6 +49,7 @@ claude plugin update agent-workflow@agent-workflow
 |---|---|---|
 | `session-start.js` | SessionStart | Injects `rules/orchestration.md` into context. |
 | `block-git.js` | PreToolUse (Bash, PowerShell) | Blocks `git commit`, `push`, `merge`, `rebase`, and `worktree add`. |
+| `pin-model.js` | PreToolUse (Agent) | Strips a `model` passed when dispatching a roster agent (`agent-workflow:*`, `explorer`, `worker`, `researcher`), so the agent's own frontmatter model always wins over skills such as superpowers' Model Selection. |
 | `emdash-guard.js` | PostToolUse (Write, Edit, MultiEdit) | Flags any em dash written to a file. |
 
 The blocker and the guard apply in every project once the plugin is installed at user scope. You commit; the agents never do.

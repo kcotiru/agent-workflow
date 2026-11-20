@@ -1,6 +1,6 @@
 {
   "name": "agent-workflow",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Full software development workflow: specialist builders, evidence-based reviewers, greenfield and brownfield stages.",
   "author": { "name": "kctiru" }
 }

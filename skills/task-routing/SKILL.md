@@ -58,6 +58,7 @@ Follow SDD as written (ledger, task briefs, pre-flight review, statuses) except 
 | Setup: `superpowers:using-git-worktrees` | Skip it. Work in the user's tree on the current branch. |
 | Setup: "never start on main/master without consent" | Does not apply. Work stays uncommitted in the user's tree and nothing is committed, so do not stall for consent. |
 | Setup, before the first task | Run `git diff --quiet` and `git ls-files --others --exclude-standard`. Any unstaged change or untracked file: stop and ask the user before dispatching anything. Staged changes are fine. |
+| Model Selection ("always specify the model") | Does not apply to `agent-workflow:*` agents: dispatch them with no `model` parameter, because each agent's frontmatter sets its model and effort, and a `model` passed at dispatch overrides it. `explorer`, `researcher` and `worker` also carry their own model. |
 | Record BASE (`git rev-parse HEAD`) | Not needed. The index is the checkpoint: everything staged has passed review. |
 | Dispatch the implementer | Subagent type is the task's `Owner`. Replace "Commit your work" in the prompt with "leave changes unstaged; never run git add or git commit". Ask for files changed instead of commits in the reply. |
 | `scripts/review-package PLAN_FILE BASE HEAD` | Write the task diff. |

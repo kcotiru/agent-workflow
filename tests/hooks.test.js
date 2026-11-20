@@ -55,8 +55,29 @@ test('emdash-guard allows an em dash only in old_string', () => {
   assert.strictEqual(r.code, 0);
 });
 
-test('both guards exit 0 on empty or invalid stdin', () => {
-  for (const s of ['block-git.js', 'emdash-guard.js']) {
+test('pin-model drops model for roster agents, keeps other fields', () => {
+  for (const t of ['agent-workflow:backend', 'explorer', 'worker', 'researcher']) {
+    const r = spawnSync('node', [path.join(root, 'hooks', 'pin-model.js')], {
+      input: JSON.stringify({ tool_name: 'Agent', tool_input: { subagent_type: t, model: 'sonnet', prompt: 'p', description: 'd' } }),
+      encoding: 'utf8',
+    });
+    assert.strictEqual(r.status, 0, t);
+    const out = JSON.parse(r.stdout).hookSpecificOutput;
+    assert.strictEqual(out.permissionDecision, 'allow', t);
+    assert.deepStrictEqual(out.updatedInput, { subagent_type: t, prompt: 'p', description: 'd' }, t);
+  }
+});
+
+test('pin-model leaves other agents and model-less calls alone', () => {
+  for (const ti of [{ subagent_type: 'general-purpose', model: 'haiku', prompt: 'p' }, { subagent_type: 'agent-workflow:frontend', prompt: 'p' }, { prompt: 'p', model: 'haiku' }]) {
+    const r = spawnSync('node', [path.join(root, 'hooks', 'pin-model.js')], { input: JSON.stringify({ tool_name: 'Agent', tool_input: ti }), encoding: 'utf8' });
+    assert.strictEqual(r.status, 0);
+    assert.strictEqual(r.stdout, '', JSON.stringify(ti));
+  }
+});
+
+test('all guards exit 0 on empty or invalid stdin', () => {
+  for (const s of ['block-git.js', 'emdash-guard.js', 'pin-model.js']) {
     assert.strictEqual(run(s, null, '').code, 0, s);
     assert.strictEqual(run(s, null, 'not json').code, 0, s);
   }
